@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <book> 
+        <author>Isak Azimov</author>
+        <name>End of spirit</name>
+       <date>10/05/2018</date>
+    </book>
+<book><author>Praveen</author><name>Test</name><date>2022-11-06</date></book><book><author>Prasad</author><name>Sample Book</name><date>2022-11-10</date></book></root>
