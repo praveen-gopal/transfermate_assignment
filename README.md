@@ -18,4 +18,4 @@ http://localhost/try/transfermate_assignment/action.php?type=cronJob 	- Cron Job
 
 # Home Page Screen 
 
-![alt text](https://github.com/praveen-gopal/transfermate_assignment/home_page.png?raw=true)
+![home page](home_page.png)
