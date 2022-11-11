@@ -15,3 +15,7 @@ This is a tech assignment for "Transfermate"
 # Page links 
 http://localhost/try/transfermate_assignment/  							- Home Page with Author Search Option 
 http://localhost/try/transfermate_assignment/action.php?type=cronJob 	- Cron Job link
+
+# Home Page Screen 
+
+![alt text](https://github.com/praveen-gopal/transfermate_assignment/home_page.png?raw=true)
