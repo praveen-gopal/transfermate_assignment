@@ -11,7 +11,7 @@ class WritetoDB_Controller
 	public function getAuthorsListByKey($key)
     {
         
-		$Query = "SELECT a.name as AuthorName, b.name as BookName FROM authors as a INNER JOIN books as b ON b.author_id = a.id WHERE a.name LIKE '%$key%'";
+		$Query = "SELECT a.name as AuthorName, b.name as BookName FROM authors as a INNER JOIN books as b ON b.author_id = a.id WHERE a.name LIKE '%".$this->cleanData($key)."%'";
         $result = $this->conn->query($Query);
         
 		$authorsArray = [];
@@ -59,7 +59,7 @@ class WritetoDB_Controller
 	public function checkAutherName($name)
     {
         
-		$query = "SELECT * FROM authors WHERE name = '$name'";
+		$query = "SELECT * FROM authors WHERE name = '".$this->cleanData($name)."'";
         $result = $this->conn->query($query);
         
 		if($result->num_rows > 0){
@@ -72,7 +72,7 @@ class WritetoDB_Controller
 	public function checkAutherWithBook($book, $author)
     {
         
-		$query = "SELECT * FROM books as b INNER JOIN authors as a ON a.id = b.author_id WHERE b.name = '$book' AND a.name = '$author' ";
+		$query = "SELECT * FROM books as b INNER JOIN authors as a ON a.id = b.author_id WHERE b.name = '".$this->cleanData($book)."' AND a.name = '".$this->cleanData($author)."' ";
         $result = $this->conn->query($query);
         
 		if($result->num_rows > 0){
@@ -82,10 +82,15 @@ class WritetoDB_Controller
         }
     }
 	
+	public function cleanData($val) 
+	{
+		 return $this->conn->real_escape_string($val);
+	}
+	
 	public function getAuthorID($name)
     {
         
-		$query = "SELECT id FROM authors WHERE name = '$name'";
+		$query = "SELECT id FROM authors WHERE name = '".$this->cleanData($name)."'";
         $result = $this->conn->query($query);
         
 		if($result->num_rows > 0){
@@ -112,11 +117,11 @@ class WritetoDB_Controller
 					$is_exists_authorAndBook = $this->checkAutherWithBook($book, $author);
 					
 					if(!$is_exists_author) {
-						$authorQuery = "INSERT INTO authors (name) VALUES ('$author')";
+						$authorQuery = "INSERT INTO authors (name) VALUES ('".$this->cleanData($author)."')";
 						if ($this->conn->query($authorQuery) === TRUE) {
 							$author_last_id = $this->conn->insert_id;
 							if($author_last_id) {
-								$bookQuery = "INSERT INTO books (name, author_id) VALUES ('$book', '$author_last_id')";
+								$bookQuery = "INSERT INTO books (name, author_id) VALUES ('".$this->cleanData($book)."', '".$this->cleanData($author_last_id)."')";
 								if ($this->conn->query($bookQuery) === TRUE) {
 									$book_last_id = $this->conn->insert_id;
 								}
@@ -124,7 +129,7 @@ class WritetoDB_Controller
 						}
 					} else if ($is_exists_author && !$is_exists_authorAndBook){
 						$authorID = $this->getAuthorID($author);
-						$bookQuery = "INSERT INTO books (name, author_id) VALUES ('$book', '$authorID[0]')";
+						$bookQuery = "INSERT INTO books (name, author_id) VALUES ('".$this->cleanData($book)."', '".$this->cleanData($authorID[0])."')";
 						if ($this->conn->query($bookQuery) === TRUE) {
 							$book_last_id = $this->conn->insert_id;
 						}
